@@ -52,9 +52,8 @@ A commonly used electrical standard for UART communication is **RS-232**, which 
 ### Bit Time
 The time duration of one bit:
 
-{
-\text{Bit Time} = \frac{1}{\text{Baud Rate}}
-}
+Bit Time (seconds) = 1 / Baud Rate (bits per second)
+
 
 Example:
 - Baud Rate = 9600 bps
@@ -71,9 +70,8 @@ Since UART has no shared clock, timing is derived internally from the **system c
 ### Transmitter Timing
 The transmitter uses a counter to hold each bit for:
 
-\[
-\frac{\text{System Clock Frequency}}{\text{Baud Rate}}
-\]
+System Clock Cycles per Bit = System Clock Frequency / Baud Rate
+
 
 Example:
 - 50 MHz clock and 9600 baud → ~5208 clock cycles per bit
