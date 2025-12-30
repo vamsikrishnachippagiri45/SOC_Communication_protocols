@@ -52,9 +52,9 @@ A commonly used electrical standard for UART communication is **RS-232**, which 
 ### Bit Time
 The time duration of one bit:
 
-\[
+{
 \text{Bit Time} = \frac{1}{\text{Baud Rate}}
-\]
+}
 
 Example:
 - Baud Rate = 9600 bps
