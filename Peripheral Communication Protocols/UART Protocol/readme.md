@@ -126,39 +126,87 @@ Each UART transmission is sent as a **frame**:
 
 ---
 
-## UART Operation Flow
+## Baud Rate Generator 
 
-### Transmission
-1. Parallel data loaded from the processor
-2. Converted into serial format
-3. Start, parity, and stop bits appended
-4. Data transmitted via TX line
+### Purpose of the Baud Rate Generator
 
-### Reception
-1. Falling edge of start bit detected
-2. RX line sampled using baud timing
-3. Serial data extracted
-4. Converted back into parallel data
+In UART communication, there is **no shared clock** between the transmitter and receiver.  
+To ensure successful data transfer, both sides must operate at the **same baud rate**.
+
+The **Baud Rate Generator** derives timing signals from the system clock and generates two enable pulses:
+
+- **TX Enable**  
+  A pulse that instructs the transmitter to shift out the next bit in the data frame.
+
+- **RX Enable**  
+  A pulse that instructs the receiver to sample the incoming RX line.  
+  This signal is generated at a much higher rate than TX Enable to support **oversampling** and reliable data recovery.
+
+### Design Assumptions
+
+- System Clock Frequency: **50 MHz**
+- Target Baud Rate: **9600 bps**
+- Receiver Oversampling Factor: **16×**
+
+
+## Transmitter (TX) Baud Rate Logic
+
+The transmitter requires **one enable pulse per transmitted bit**.
+
+### Divider Calculation
+
+System clock cycles per bit:
+
+
+
+### Implementation
+
+- A **13-bit counter (`counter_tx`)** runs continuously
+- The counter counts from **0 to 5208**
+- When the counter reaches the terminal count:
+  - It resets to zero
+  - A **TX Enable pulse** is asserted for one clock cycle
+
+This TX Enable pulse causes the UART transmitter to shift out the next bit.
+
+
+
+## Receiver (RX) Baud Rate Logic
+
+The receiver uses **16× oversampling** to improve noise tolerance and timing accuracy.
+
+This means the RX line is sampled **16 times per transmitted bit**.
+
+### Divider Calculation
+
+System clock cycles per oversampling tick:
+
+Divider Value = System Clock Frequency / (Baud Rate × 16)
+Divider Value = 50,000,000 / (9,600 × 16) ≈ 325
+
+### Implementation
+
+- A **10-bit counter (`counter_rx`)** runs continuously
+- The counter counts from **0 to 325**
+- When the counter reaches the terminal count:
+  - It resets to zero
+  - An **RX Enable pulse** is generated
+
+Because RX Enable pulses occur **16× faster** than TX Enable pulses, the receiver can:
+- Detect the start bit
+- Count **8 RX Enable pulses** to reach the **center of the bit**
+- Sample the data at the most stable point
+
+This significantly improves reliability, especially in the presence of clock drift or noise.
+
+### Summary
+
+- **TX Enable** controls when the transmitter shifts bits
+- **RX Enable** controls when the receiver samples data
+- TX logic operates at **baud rate**
+- RX logic operates at **16× baud rate**
+- Both are derived from the same system clock using counters
 
 ---
-
-## Key Features of This Implementation
-
-- Full-duplex communication (TX and RX)
-- Configurable baud rate
-- FSM-based control logic
-- Parameterized design
-- Synthesizable Verilog HDL
-- Suitable for FPGA and ASIC designs
-
----
-
-## Applications
-
-- SoC debug console
-- Processor-to-PC communication
-- Firmware and bootloader messaging
-- Embedded system logging
-
 
 
