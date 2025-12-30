@@ -47,6 +47,10 @@ RS-232 defines how those bits are electrically represented on wires.
 
 ---
 
+<img width="860" height="559" alt="image" src="https://github.com/user-attachments/assets/a1a9517b-b730-49ca-b144-cca2469facba" />
+
+---
+
 ## Baud Rate and Bit Time
 
 ### Baud Rate
