@@ -40,6 +40,13 @@ The UART line remains in **logic High (Idle state)** when no transmission is occ
 
 A commonly used electrical standard for UART communication is **RS-232**, which defines voltage levels and signal characteristics.
 
+RS-232 (Recommended Standard-232) is a communication standard that defines the electrical, timing, and signal characteristics for serial data communication, most commonly used with UART-based interfaces.
+
+In simple terms:
+
+UART defines how data is framed and transferred.
+RS-232 defines how those bits are electrically represented on wires.
+
 ---
 
 ## Baud Rate and Bit Time
