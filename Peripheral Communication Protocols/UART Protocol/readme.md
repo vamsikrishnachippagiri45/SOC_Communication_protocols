@@ -120,6 +120,10 @@ Each UART transmission is sent as a **frame**:
 - Line returns to **High (1)**
 - Marks the end of the frame
 
+
+<img width="860" height="441" alt="image" src="https://github.com/user-attachments/assets/66dcad72-f519-48be-bfe1-4f5211e29584" />
+
+
 ---
 
 ## UART Operation Flow
