@@ -149,15 +149,17 @@ The **Baud Rate Generator** derives timing signals from the system clock and gen
 - Receiver Oversampling Factor: **16×**
 
 
-## Transmitter (TX) Baud Rate Logic
+### Transmitter (TX) Baud Rate Logic
 
 The transmitter requires **one enable pulse per transmitted bit**.
 
-### Divider Calculation
+#### Divider Calculation
 
 System clock cycles per bit:
 
+Divider Value = System Clock Frequency / Baud Rate
 
+Divider Value = 50,000,000 / 9,600 ≈ 5208
 
 ### Implementation
 
@@ -171,17 +173,18 @@ This TX Enable pulse causes the UART transmitter to shift out the next bit.
 
 
 
-## Receiver (RX) Baud Rate Logic
+### Receiver (RX) Baud Rate Logic
 
 The receiver uses **16× oversampling** to improve noise tolerance and timing accuracy.
 
 This means the RX line is sampled **16 times per transmitted bit**.
 
-### Divider Calculation
+#### Divider Calculation
 
 System clock cycles per oversampling tick:
 
 Divider Value = System Clock Frequency / (Baud Rate × 16)
+
 Divider Value = 50,000,000 / (9,600 × 16) ≈ 325
 
 ### Implementation
